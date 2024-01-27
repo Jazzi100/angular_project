@@ -38,12 +38,14 @@ export class PostCreateComponent {
         console.log("Title : ",this.title);
         console.log("Description : ",this.description);
         const post: Post = {
+            id: "",
             title: form.value.title,
             description: form.value.description
         }
         //this.postCreated.emit(post);
 
         this.postsService.addPost(form.value.title,form.value.description);
+        form.resetForm();
 
         //this.postsService.addPost(post);
     }

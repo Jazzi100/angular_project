@@ -7,7 +7,12 @@
         </mat-card-title>
       </mat-card-header>
       <mat-card-content>{{ post.description }}</mat-card-content>
-      <mat-card-footer><sub>Posted By: </sub></mat-card-footer>
+      <mat-card-footer><sub>Posted By: </sub>
+      </mat-card-footer>
+      <mat-action-row>
+        <button mat-raised-button color="warn" style="float: right; margin-Left: 5px;">Delete</button> 
+        <button mat-raised-button color="primary" style="float: right;">Edit</button>
+      </mat-action-row>
     </mat-card>
   </ng-container>
 
