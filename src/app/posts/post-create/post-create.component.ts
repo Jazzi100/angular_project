@@ -38,7 +38,7 @@ export class PostCreateComponent {
         console.log("Title : ",this.title);
         console.log("Description : ",this.description);
         const post: Post = {
-            id: "",
+            _id: "",
             title: form.value.title,
             description: form.value.description
         }
