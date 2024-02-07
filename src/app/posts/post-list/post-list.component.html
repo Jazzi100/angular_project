@@ -12,7 +12,7 @@
       </mat-card-footer>
       <mat-action-row>
         <button mat-raised-button color="warn" style="float: right; margin-Left: 5px;" (click)="onDelete(post._id!)">Delete</button> 
-        <button mat-raised-button color="primary" style="float: right;">Edit</button>
+        <a mat-raised-button color="primary" style="float: right;" [routerLink]="['edit',post._id]">Edit</a>
       </mat-action-row>
     </mat-card>
   </ng-container>

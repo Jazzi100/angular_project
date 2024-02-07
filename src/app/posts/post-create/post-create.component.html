@@ -17,17 +17,17 @@
 
 <mat-card>
     <h2>Create New Post</h2>
-    <form (submit)="addNewPost(postForm)" #postForm="ngForm">
+    <form (submit)="addSavePost(postForm)" #postForm="ngForm">
         <mat-form-field>
             <mat-label>Title</mat-label>
-        <input type="text" name="title" matInput placeholder="Enter here title" ngModel required #title="ngModel">
+        <input type="text" name="title" matInput placeholder="Enter here title" [ngModel]="post?.title" required #title="ngModel">
         @if (title.invalid) {
             <mat-error>Please Enter the title</mat-error>
         }
         </mat-form-field>
         <mat-form-field>    
             <mat-label>Description</mat-label>
-            <textarea matInput rows="6" ngModel name="description" required #description="ngModel"></textarea>
+            <textarea matInput rows="6" [ngModel]="post?.description" name="description" required #description="ngModel"></textarea>
           
             @if (description.invalid) {
                 <mat-error>Please Enter the description</mat-error>

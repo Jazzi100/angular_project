@@ -2,8 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Post } from "./post.model";
 import { Subject } from 'rxjs';
-
-
+import { response } from "express";
 
 @Injectable({providedIn: 'root'})
 export class PostsService{
@@ -11,12 +10,6 @@ export class PostsService{
     private postsUpdated = new Subject<Post[]>();
 
     constructor(private http: HttpClient){}
-
-    // getPosts(){
-    //     console.log("this posts : " ,this.posts);
-    //     //return [...this.posts];
-    //     return this.posts;
-    // }
 
     getPosts(){
         this.http.get<{message: string, posts: Post[]}>('http://localhost:3000/api/posts')
@@ -26,9 +19,15 @@ export class PostsService{
         });
     }
 
+    getSinglePost(id:String){
+        return {...this.posts.find(p => p._id === id)};
+    }
+
     getpostUpdateListener(){
         return this.postsUpdated.asObservable();
     }
+
+    
 
     addPost(title: string, description: string){
         const post : Post = { _id:"", title:title, description:description};
@@ -41,10 +40,6 @@ export class PostsService{
         
     }   
 
-    // addPost(post: Post){
-    //     this.posts.push(post); 
-    // }
-
     deletePost(postId: String){
         this.http.delete('http://localhost:3000/api/posts/' + postId)
         .subscribe(() => {
@@ -52,5 +47,12 @@ export class PostsService{
             this.posts = updatedPosts;
             this.postsUpdated.next([...this.posts]);
         });
+    }
+
+    updatePost(id:string, title:string, description:string){
+        const post: Post = { _id:id, title:title, description:description};
+        console.log("IDDDDD : " + id);
+        this.http.put('http://localhost:3000/api/posts/'+id, post)
+        .subscribe(response => console.log(response));
     }
 }

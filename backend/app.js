@@ -94,4 +94,16 @@ app.delete('/api/posts/:id', (req,res,next) => {
     
 })
 
+app.put('/api/posts/:id', (req, res, next) => {
+    const post = new Post({
+        _id: req.params.id,
+        title: req.body.title,
+        description: req.body.description
+    });
+    Post.updateOne({_id: req.params.id}, post).then(result => {
+        console.log(result);
+        res.status(200).json({message: 'updated successfully!...'});
+    });
+})
+
 module.exports = app;
