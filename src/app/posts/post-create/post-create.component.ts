@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { Post } from "../post.model";
-import { NgForm } from "@angular/forms";
+import { FormGroup, FormBuilder, NgForm } from "@angular/forms";
 import { PostsService } from '../posts.service';
 import { ActivatedRoute, ParamMap  } from "@angular/router";
 @Component({
@@ -16,6 +16,11 @@ export class PostCreateComponent implements OnInit{
     private mode = 'create';
     private postId!: string;
     post : Post | null = null;
+    isLoading = false;
+    form: FormGroup = this.fb.group({
+        title: [''],
+        description: [''],
+    });
     // @Output() postCreated = new EventEmitter<Post>();
     // addNewPost(postInput: HTMLTextAreaElement){
     //     console.dir(postInput.value);
@@ -33,14 +38,16 @@ export class PostCreateComponent implements OnInit{
     //         this.postCreated.emit(post);
     //     }
 
-    constructor(public postsService: PostsService, public route: ActivatedRoute){}
+    constructor(public postsService: PostsService, public route: ActivatedRoute, private fb: FormBuilder){}
 
     ngOnInit(): void {
         this.route.paramMap.subscribe((paramMap: ParamMap) => {
             if(paramMap.has('postId')){
                 this.mode = 'edit';
                 this.postId = paramMap.get('postId') ?? '';
+                this.isLoading = true;
                 this.post = this.postsService.getSinglePost(this.postId) as any;
+                this.isLoading = false;
             }else{
                 this.mode = 'create';
                 this.postId = null as any;
@@ -52,6 +59,7 @@ export class PostCreateComponent implements OnInit{
         if(form.invalid){
             return;
         }
+        this.isLoading = true;
         if(this.mode === 'create'){
             this.postsService.addPost(form.value.title,form.value.description);
         }else{
